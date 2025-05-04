@@ -17,7 +17,7 @@ jobs:
 
       - name: Clone user repo
         run: |
-          git clone $USER_REPO_URL user-repo
+          git clone ${{ github.event.inputs.user_repo_url }} user-repo
           cp -r user-repo/* .
           cp -r user-repo/.* . || true  # Copy dotfiles (e.g. .gitignore), ignore errors
           rm -rf user-repo
