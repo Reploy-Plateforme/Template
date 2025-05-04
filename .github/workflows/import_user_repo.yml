@@ -7,6 +7,11 @@ on:
         description: 'User GitHub Repo URL'
         required: true
         type: string
+permissions:
+  contents: write  # Give write access to repo contents
+  issues: write    # Give write access to issues (optional)
+  pull-requests: write  # Give write access to pull requests (optional)
+
 jobs:
   clone-and-push:
     runs-on: ubuntu-latest
