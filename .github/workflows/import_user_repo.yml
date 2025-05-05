@@ -34,8 +34,8 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git fetch origin
           git clean -fd                   
-          git pull --rebase origin main 
+          git reset --hard origin/main 
           git add .
           git commit -m "Import user repo" || echo "Nothing to commit"
-          git push origin HEAD:main
+          git push origin HEAD:main --force
 
