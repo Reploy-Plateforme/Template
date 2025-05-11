@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{APP_NAME}}-container
-          image: {{DOCKER_USERNAME}}/{{APP_NAME}}:{{IMAGE_TAG}}
+          image: ${{secrets.DOCKER_USERNAME}}/{{APP_NAME}}:{{IMAGE_TAG}}
           ports:
             - containerPort: 80
           resources:
