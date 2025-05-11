@@ -93,3 +93,17 @@ jobs:
       - name: Push Docker image to DockerHub
         run: |
           docker push $IMAGE_NAME:$COMMIT_SHA
+          
+      - name: Update Kubernetes deployment with new image tag
+        run: |
+          DEPLOYMENT_FILE="manifests/deployment.yaml"
+
+          # Replace image tag in deployment.yaml
+          sed -i "s|image:.*|image: $IMAGE_NAME:$COMMIT_SHA|g" $DEPLOYMENT_FILE
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add $DEPLOYMENT_FILE
+          git commit -m "Update deployment image tag to $COMMIT_SHA"
+          git push
