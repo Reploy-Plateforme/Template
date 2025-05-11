@@ -94,16 +94,22 @@ jobs:
         run: |
           docker push $IMAGE_NAME:$COMMIT_SHA
           
-      - name: Update Kubernetes deployment with new image tag
+      - name: Update Kubernetes manifests with new image tag and app name
         run: |
           DEPLOYMENT_FILE="manifests/deployment.yaml"
+          SERVICE_FILE="manifests/service.yaml"
 
-          # Replace image tag in deployment.yaml
-          sed -i "s|image:.*|image: $IMAGE_NAME:$COMMIT_SHA|g" $DEPLOYMENT_FILE
+          # --- Deployment updates ---
+          sed -i "s/name: .*-deployment/name: $APP_NAME-deployment/g" $DEPLOYMENT_FILE
+          sed -i "s/app: .*/app: $APP_NAME/g" $DEPLOYMENT_FILE
+          sed -i "s|image: .*|image: $IMAGE_NAME:$COMMIT_SHA|g" $DEPLOYMENT_FILE
+
+          # --- Service updates ---
+          sed -i "s/name: .*-service/name: $APP_NAME-service/g" $SERVICE_FILE
+          sed -i "s/app: .*/app: $APP_NAME/g" $SERVICE_FILE
 
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
-          git add $DEPLOYMENT_FILE
-          git commit -m "Update deployment image tag to $COMMIT_SHA"
+          git add $DEPLOYMENT_FILE $SERVICE_FILE
+          git commit -m "Update deployment and service to $IMAGE_NAME:$COMMIT_SHA"
           git push
