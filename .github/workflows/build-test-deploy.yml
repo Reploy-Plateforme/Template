@@ -30,8 +30,11 @@ jobs:
 
       - name: Set APP_NAME from repo name
         run: |
-          APP_NAME=$(basename "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+          # Extract the app name from "user-appname-deployed"
+          FULL_NAME=$(basename "${GITHUB_REPOSITORY}")
+          APP_NAME=$(echo "$FULL_NAME" | sed -E 's/^user-(.*)-deployed$/\1/')
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+
 
 
       - name: Detect language (supports nested folders)
