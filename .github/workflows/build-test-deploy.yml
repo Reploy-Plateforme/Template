@@ -27,6 +27,13 @@ jobs:
           REPO_NAME=$(basename "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
           echo "IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME" >> $GITHUB_ENV
 
+
+      - name: Set APP_NAME from repo name
+        run: |
+          APP_NAME=$(basename "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+
+
       - name: Detect language (supports nested folders)
         id: language_detection
         run: |
@@ -104,8 +111,8 @@ jobs:
           SERVICE_FILE="manifests/service.yaml"
 
           # --- Deployment updates ---
-          sed -i "s/name: .*-deployment/name: $APP_NAME-deployment/g" $DEPLOYMENT_FILE
-          sed -i "s/app: .*/app: $APP_NAME/g" $DEPLOYMENT_FILE
+          sed -i "s/{{APP_NAME}}/$APP_NAME/g" $DEPLOYMENT_FILE
+          sed -i "s/{{APP_NAME}}/$APP_NAME/g" $SERVICE_FILE
           sed -i "s|image: .*|image: $IMAGE_NAME:$COMMIT_SHA|g" $DEPLOYMENT_FILE
 
           # --- Service updates ---
