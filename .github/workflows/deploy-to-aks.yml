@@ -1,4 +1,4 @@
-name: Connect to Azure AKS
+name: Connect to Azure AKS with Username and Password
 
 on:
   push:
@@ -14,10 +14,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Log in to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Log in to Azure with Username and Password
+      run: |
+        az login --service-principal -u ${{ secrets.AZURE_USERNAME }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
     - name: Set up Azure CLI
       run: az account show
