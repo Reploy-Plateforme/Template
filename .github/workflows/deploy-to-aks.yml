@@ -16,7 +16,7 @@ jobs:
 
     - name: Log in to Azure with Username and Password
       run: |
-        az login --username "zied.benelbahri@insat.u-carthage.tn" --password "Benbahri14367005#" --tenant "dbd6664d-4eb9-46eb-99d8-5c43ba153c61"
+        az login --username ${{ secrets.AZURE_USERNAME }} --password ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
     - name: Set up Azure CLI
       run: az account show
 
