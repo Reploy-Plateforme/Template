@@ -35,11 +35,12 @@ jobs:
         APP_NAME=$(echo "$FULL_NAME" | sed -E 's/^user-(.*)-deployed$/\1/')
         echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
 
-    - name: Generate application.yaml from template
+    - name: Update placeholders in manifests/application.yaml
       run: |
-        sed -e "s|{{APP_NAME}}|${{ env.APP_NAME }}|" \
-            -e "s|{{REPO_URL}}|https://github.com/${{ github.repository }}|" \
-            -e "s|{{REPO_PATH}}|manifests|" \
-            -e "s|{{DEST_NAMESPACE}}|${{ env.APP_NAME }}|" \
-            application.yaml.template > application.yaml
+          sed -i -e "s|{{APP_NAME}}|${{ env.APP_NAME }}|" \
+                 -e "s|{{REPO_URL}}|https://github.com/${{ github.repository }}|" \
+                 -e "s|{{REPO_PATH}}|manifests|" \
+                 -e "s|{{DEST_NAMESPACE}}|${{ env.APP_NAME }}|" \
+                 manifests/application.yaml
+
 
