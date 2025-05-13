@@ -5,7 +5,10 @@ on:
     workflows: ["Build & Deploy"]
     types:
       - completed
-
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   connect-to-aks:
