@@ -1,10 +1,11 @@
 name: Connect to Azure AKS with Username and Password
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["build-test-deploy"]
+    types:
+      - completed
+
 
 jobs:
   connect-to-aks:
