@@ -28,3 +28,18 @@ jobs:
       run: |
         kubectl get nodes
         kubectl get deployments --all-namespaces=true
+
+    - name: Set APP_NAME from repo name
+      run: |
+        FULL_NAME=$(basename "${GITHUB_REPOSITORY}")
+        APP_NAME=$(echo "$FULL_NAME" | sed -E 's/^user-(.*)-deployed$/\1/')
+        echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+
+    - name: Generate application.yaml from template
+      run: |
+        sed -e "s|{{APP_NAME}}|${{ env.APP_NAME }}|" \
+            -e "s|{{REPO_URL}}|https://github.com/${{ github.repository }}|" \
+            -e "s|{{REPO_PATH}}|manifests|" \
+            -e "s|{{DEST_NAMESPACE}}|${{ env.APP_NAME }}|" \
+            application.yaml.template > application.yaml
+
