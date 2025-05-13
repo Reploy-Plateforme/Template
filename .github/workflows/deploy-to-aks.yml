@@ -25,4 +25,6 @@ jobs:
         az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name ${{ secrets.AZURE_AKS_CLUSTER_NAME }}
 
     - name: Verify Connection to AKS
-      run: kubectl get nodes
+      run: |
+        kubectl get nodes
+        kubectl get deployments --all-namespaces=true
