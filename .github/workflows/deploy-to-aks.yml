@@ -2,7 +2,7 @@ name: Connect to Azure AKS with Username and Password
 
 on:
   workflow_run:
-    workflows: ["build & deploy"]
+    workflows: ["Build & Deploy"]
     types:
       - completed
 
