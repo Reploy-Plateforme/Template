@@ -54,5 +54,6 @@ jobs:
         git add manifests/application.yaml
         git commit -m "Update application.yaml with deployment values"
         git push
-
+    - name: Deploy ArgoCD Application
+      run: kubectl apply -f manfests/application.yaml -n argocd
 
