@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{MY-APP}}-ingress
-  namespace: {{MY-APP}}
+  name: {{MY_APP}}-ingress
+  namespace: {{MY_APP}}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -15,6 +15,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{MY-APP}}-service
+            name: {{MY_APP}}-service
             port:
               number: 5000
