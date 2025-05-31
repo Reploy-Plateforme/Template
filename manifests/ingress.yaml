@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: okk.eastus.cloudapp.azure.com
+  - host: {{APP_NAME}}.eastus.cloudapp.azure.com
     http:
       paths:
       - path: /
